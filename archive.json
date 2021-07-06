@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-05-26T14:18:06.254838+00:00",
+  "timestamp": "2021-07-06T23:34:07.916068+00:00",
   "repo": "cfrg/draft-irtf-cfrg-hpke",
   "labels": [
     {
@@ -2412,7 +2412,7 @@
       "id": "MDU6SXNzdWU4NjgxOTk4MTQ=",
       "title": "Improve test vector field descriptions",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/issues/218",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "kaduk",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -2421,8 +2421,8 @@
       ],
       "body": "The test vectors include (for example) fields like \"ikmE\", \"ikmR\", and \"ikmS\", whereas the main body of the document only uses the unadorned \"ikm\".  Some modest description of what the variant fields are holding seems like it would improve the usability of the test vectors.",
       "createdAt": "2021-04-26T21:01:33Z",
-      "updatedAt": "2021-04-28T12:51:28Z",
-      "closedAt": null,
+      "updatedAt": "2021-05-26T17:22:19Z",
+      "closedAt": "2021-05-26T17:22:19Z",
       "comments": [
         {
           "author": "FredericJacobs",
@@ -2469,15 +2469,15 @@
       "id": "MDU6SXNzdWU4OTcxNDg1NTY=",
       "title": "KEM failures and API considerations",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/issues/221",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This issue tracks two related questions:\r\n\r\n1. How should HPKE deal with implicit KEM failures? Should it raise errors early on (during context creation) or only when trying to decrypt data?\r\n2. Not all KEMs have an immediate \"is this key valid\" check, such as those based on lattices. How should the spec accommodate those?\r\n\r\nCurrently, context creation is fallible, which would need to change if the answer to both (1) and (2) is \"only fail during the AEAD operation\" (I think).\r\n\r\ncc @davidben, @martinthomson, @jedisct1, @bifurcation, @rozbb (please feel free to tag other implementers!)",
       "createdAt": "2021-05-20T17:12:18Z",
-      "updatedAt": "2021-05-20T18:05:17Z",
-      "closedAt": null,
+      "updatedAt": "2021-05-26T17:21:37Z",
+      "closedAt": "2021-05-26T17:21:37Z",
       "comments": [
         {
           "author": "beurdouche",
@@ -2495,10 +2495,34 @@
         },
         {
           "author": "davidben",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "As an implementor, I don't think moving the failure makes sense. I suppose an implementation could move it if it *really* wanted to, but it doesn't seem like a good idea. (While the spec does specify operations, how exactly that manifests in your programming language is necessarily an implementation question. There are many considerations around the type system, how you want to represent HPKE ciphers, naming, etc.)\r\n\r\nFirst, I don't think the X25519 zero-check is that controversial. TLS mandates it, so I expect any TLS-adjacent implementation to use it. It should stay. HPKE also supports P-256, where both point-at-infinity and point-on-curve checks are quite well-established. (And necessary! Missing the point-on-curve check has the usual implications with uncompressed coordinates. Even with compressed coordinates, not every compressed input successfully finds a square root. Missing the point-at-infinity check means the output secret is not even defined.)\r\n\r\nSecond, Encap and Decap can fail for every KEM. Even ignoring failures inside the KEM, most of our programming languages do not have sufficiently strong type systems to reject keys and enc values of the wrong length at the type level. Even where they are strong enough, that's just shifting the check to the caller. At the end of the day, your protocol probably sends a variable-length string somewhere. Or the KEM may need to serialize something in a way that doesn't span the whole `[N]byte` space.\r\n\r\nFinally, you'd need to shift the failure to not just decryption, but also encryption (if the recipient public key is wrong) and export. Those do not have as natural of error cases as decryption, so shifting the error seems more error-prone.",
           "createdAt": "2021-05-20T18:03:02Z",
           "updatedAt": "2021-05-20T18:05:17Z"
+        }
+      ]
+    },
+    {
+      "number": 226,
+      "id": "MDU6SXNzdWU5MDk5MDMxOTA=",
+      "title": "Guidance on how to use info and aad",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/issues/226",
+      "state": "OPEN",
+      "author": "davidben",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Should the spec include some guidance (not sure how detailed or for what audience) on when to use the `info` parameter to `Setup*` and when to use `aad` to `Seal` and `Open`? In particular, for protocols that only need the single-shot mode, both seem to serve roughly the same purpose. (Though they do work very differently internally...)\r\n\r\nOne difference I can see is you're better off sticking your label string into `info` since other protocols might not be single-shot. (Is it worth a suggestion to incorporate a label string into `info`.) @chris-wood also points out that processing `aad` with your AEAD's universal hash function is likely faster than processing `info` with your KDF. So there's probably some benefit to keeping bulk data in the `aad` side of things. But I also expect this is negligible compared to the KEM. :-)\r\n\r\n Beyond that, I'm not sure. `aad` is per-encryption and `info` is per-context, but what \"feels\" per-encryption vs per-context is a little hazy for single-shot uses.\r\n\r\n(CC @csharrison)",
+      "createdAt": "2021-06-02T21:33:41Z",
+      "updatedAt": "2021-06-02T21:41:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This discussion over at MLS seems related https://github.com/mlswg/mls-protocol/issues/470.",
+          "createdAt": "2021-06-02T21:41:44Z",
+          "updatedAt": "2021-06-02T21:41:44Z"
         }
       ]
     }
@@ -16259,25 +16283,35 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjUxMzY2NDM2",
       "title": "Clarify test vectors fields.",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/224",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "~Opening as a draft for now until the corresponding test vector rename PR (https://github.com/cisco/go-hpke/pull/54) lands. I'll update the test vectors in this PR afterwards.~\r\n\r\ncc @kaduk, @fredericjacobs\r\n\r\nCloses #218.",
       "createdAt": "2021-05-24T14:11:56Z",
-      "updatedAt": "2021-05-25T15:15:46Z",
+      "updatedAt": "2021-05-26T17:22:19Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
       "baseRefName": "master",
       "baseRefOid": "1f37ecd930e3e8c928572466dc076ffe076ba72a",
       "headRepository": "cfrg/draft-irtf-cfrg-hpke",
       "headRefName": "caw/clarify-test-vector-fields",
-      "headRefOid": "ef3a35cf79618c5ab898bdfb9bc2648716320c8b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "5627aa4fa7cedc3809d95dcc63eeed51e0ec1fe2",
+      "closedAt": "2021-05-26T17:22:19Z",
+      "mergedAt": "2021-05-26T17:22:19Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "0f5f56eaac5584b11bc464f54f47fb1b659ec4db"
+      },
+      "comments": [
+        {
+          "author": "FredericJacobs",
+          "authorAssociation": "NONE",
+          "body": "Looks good to me!",
+          "createdAt": "2021-05-26T17:00:43Z",
+          "updatedAt": "2021-05-26T17:00:43Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY3OTYyNzg5",
@@ -16298,6 +16332,45 @@
               "updatedAt": "2021-05-25T15:15:39Z"
             }
           ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY5MjYwOTkz",
+          "commit": {
+            "abbreviatedOid": "ef3a35c"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-05-26T16:31:59Z",
+          "updatedAt": "2021-05-26T16:35:29Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\r\n   sender, recipient, and ephemeral key material. For each role X,\r\n```",
+              "createdAt": "2021-05-26T16:31:59Z",
+              "updatedAt": "2021-05-26T16:35:29Z"
+            },
+            {
+              "originalPosition": 19,
+              "body": "```suggestion\r\n   where X is one of S, R, or E as sender, recipient, and ephemeral,\r\n```",
+              "createdAt": "2021-05-26T16:32:22Z",
+              "updatedAt": "2021-05-26T16:35:29Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY5MzE0NjA1",
+          "commit": {
+            "abbreviatedOid": "ef3a35c"
+          },
+          "author": "FredericJacobs",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-05-26T17:00:28Z",
+          "updatedAt": "2021-05-26T17:00:28Z",
+          "comments": []
         }
       ]
     },
@@ -16306,24 +16379,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0NjUxNTU2MzQ3",
       "title": "Add some API consideration text.",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/225",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Opening as a draft for now. I don't think this text is perfect, but I hope the _direction_ is clear. In general, I'm trying to say that errors can change as a function of the algorithms in use, and users of HPKE should account for that. \r\n\r\ncc @davidben, @jedisct1, @blipp, @rozbb, @franziskuskiefer, @fredericjacobs, @martinthomson (from the issue)\r\n\r\nCloses #221 (?)",
       "createdAt": "2021-05-24T19:02:04Z",
-      "updatedAt": "2021-05-26T14:17:36Z",
+      "updatedAt": "2021-05-26T17:25:52Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
       "baseRefName": "master",
       "baseRefOid": "1f37ecd930e3e8c928572466dc076ffe076ba72a",
       "headRepository": "cfrg/draft-irtf-cfrg-hpke",
       "headRefName": "caw/on-apis",
-      "headRefOid": "738ee562b1f7373f8cb146820b073b07180a25df",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "a589f42388117cb0e10fd0f5a1af74ee2e1f37b3",
+      "closedAt": "2021-05-26T17:21:37Z",
+      "mergedAt": "2021-05-26T17:21:37Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "67dc1067624954695fdf97fc1fc14eca7cf46097"
+      },
       "comments": [
         {
           "author": "chris-wood",
@@ -16345,6 +16420,13 @@
           "body": "@davidben, @bifurcation, @franziskuskiefer: please re-review if you can! @martinthomson, your eyes here would also be welcome. ",
           "createdAt": "2021-05-25T22:39:53Z",
           "updatedAt": "2021-05-25T22:39:53Z"
+        },
+        {
+          "author": "davidben",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "(Belated LGTM.)",
+          "createdAt": "2021-05-26T17:25:52Z",
+          "updatedAt": "2021-05-26T17:25:52Z"
         }
       ],
       "reviews": [
@@ -16654,6 +16736,463 @@
               "body": "```suggestion\r\nthe `Encap()` algorithm fails when given an invalid recipient public key.\r\n```",
               "createdAt": "2021-05-26T14:17:27Z",
               "updatedAt": "2021-05-26T14:17:27Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY5MDgzMDg5",
+          "commit": {
+            "abbreviatedOid": "4e7a8de"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-05-26T14:18:27Z",
+          "updatedAt": "2021-05-26T14:18:27Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "```suggestion\r\n- `MessageLimitReachedError`: Context AEAD sequence number overflow; {{base-crypto}} and {{hpke-dem}}.\r\n- `DeriveKeyPairError`: Key pair derivation failure; {{derivekeypair}}.\r\n```",
+              "createdAt": "2021-05-26T14:18:27Z",
+              "updatedAt": "2021-05-26T14:18:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY5MDkzODQ5",
+          "commit": {
+            "abbreviatedOid": "31d900a"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-05-26T14:26:44Z",
+          "updatedAt": "2021-05-26T14:26:45Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\r\n- `DeriveKeyPairError`: Key pair derivation failure; {{derive-key-pair}}.\r\n```",
+              "createdAt": "2021-05-26T14:26:45Z",
+              "updatedAt": "2021-05-26T14:26:45Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY5MTQ3ODA2",
+          "commit": {
+            "abbreviatedOid": "a589f42"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-05-26T15:08:01Z",
+          "updatedAt": "2021-05-26T15:08:01Z",
+          "comments": []
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjY5MjU2MzE0",
+          "commit": {
+            "abbreviatedOid": "a589f42"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-05-26T16:29:46Z",
+          "updatedAt": "2021-05-26T16:29:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 227,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjczNTY0ODYx",
+      "title": "Address Kirsty's comments.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/227",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "cc @blipp ",
+      "createdAt": "2021-06-18T15:27:47Z",
+      "updatedAt": "2021-06-28T14:41:55Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "0f5f56eaac5584b11bc464f54f47fb1b659ec4db",
+      "headRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "headRefName": "caw/kirsty-comments",
+      "headRefOid": "8301fa87942a4470ba8577e4b795350f174749d5",
+      "closedAt": "2021-06-28T14:41:55Z",
+      "mergedAt": "2021-06-28T14:41:54Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "760a6c7a7ac7af6575d8afc0173c288b717cf523"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@blipp merging assuming you're OK with the latest changes -- thanks!",
+          "createdAt": "2021-06-28T14:41:49Z",
+          "updatedAt": "2021-06-28T14:41:49Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njg4MzE2ODk2",
+          "commit": {
+            "abbreviatedOid": "d7044be"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2021-06-21T11:29:56Z",
+          "updatedAt": "2021-06-21T11:41:11Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\nand two optional ones which authenticate possession of a KEM private key.\r\n```",
+              "createdAt": "2021-06-21T11:29:57Z",
+              "updatedAt": "2021-06-21T11:41:11Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nThis scheme provides a variant of public-key encryption of arbitrary-sized\r\n```",
+              "createdAt": "2021-06-21T11:32:36Z",
+              "updatedAt": "2021-06-21T11:41:11Z"
+            },
+            {
+              "originalPosition": 100,
+              "body": "```suggestion\r\nSHOULD at least have the security level of the KEM and SHOULD\r\n```",
+              "createdAt": "2021-06-21T11:36:40Z",
+              "updatedAt": "2021-06-21T11:41:11Z"
+            },
+            {
+              "originalPosition": 105,
+              "body": "```suggestion\r\nAll AEADs MUST be IND-CCA2-secure, as is currently true for all AEADs\r\n```",
+              "createdAt": "2021-06-21T11:38:47Z",
+              "updatedAt": "2021-06-21T11:41:11Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 228,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njc0OTI3Nzc5",
+      "title": "Addressing comments by Kirsty on Security Limitations",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/228",
+      "state": "MERGED",
+      "author": "blipp",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Draft, open for suggestions and comments. Also on my copywriting, because it is late and hot in Paris.\r\n\r\nThe distinction between forward secrecy with respect to sender or recipient compromise is new. Let me know if you like it. Introduced after re-reading Noise' security levels.\r\n\r\nShould we keep the comparison to Noise? Should we move it somewhere else?\r\n\r\nDo you agree on the plug of PQ-WireGuard's ephemeral randomness technique? The paper cites an older reference on that, too, but I felt like the PQ-WireGuard one is easier to understand, because it is more compact.",
+      "createdAt": "2021-06-21T22:11:45Z",
+      "updatedAt": "2021-07-06T22:26:18Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "d5ce5f8c88a6a285d5180903863a0dd9b8f37f03",
+      "headRepository": "blipp/draft-irtf-cfrg-hpke",
+      "headRefName": "kirsty-sec-cons",
+      "headRefOid": "7965e244caca1587cc353f483486da2cd75c74b6",
+      "closedAt": "2021-07-06T22:26:18Z",
+      "mergedAt": "2021-07-06T22:26:18Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "fb362354e3541f0d0ff554ad69715965df490392"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@blipp can you please resolve conflicts here?",
+          "createdAt": "2021-06-28T14:42:10Z",
+          "updatedAt": "2021-06-28T14:42:10Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njk0MDc1OTE4",
+          "commit": {
+            "abbreviatedOid": "0a491b4"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Thanks, @blipp! This LGTM, but I think some further clarifications and updated references would help. ",
+          "createdAt": "2021-06-28T15:09:12Z",
+          "updatedAt": "2021-06-28T15:25:15Z",
+          "comments": [
+            {
+              "originalPosition": 79,
+              "body": "```suggestion\r\nBesides forward secrecy and key-compromise impersonation, which are highlighted\r\n```",
+              "createdAt": "2021-06-28T15:09:12Z",
+              "updatedAt": "2021-06-28T15:25:15Z"
+            },
+            {
+              "originalPosition": 150,
+              "body": "I would omit this, as the prior paragraphs seem sufficient. ",
+              "createdAt": "2021-06-28T15:14:35Z",
+              "updatedAt": "2021-06-28T15:25:15Z"
+            },
+            {
+              "originalPosition": 133,
+              "body": "```suggestion\r\nin any mode. This means that compromise of long-term recipient secrets allows\r\nan attacker to decrypt past ciphertexts encrypted under said secret. This is because \r\nonly long-term secrets are used on the side of the recipient.\r\n```",
+              "createdAt": "2021-06-28T15:16:22Z",
+              "updatedAt": "2021-06-28T15:25:16Z"
+            },
+            {
+              "originalPosition": 162,
+              "body": "```suggestion\r\nconfidentiality guarantees can be lost completely; in the other modes, at least forward secrecy with\r\n```",
+              "createdAt": "2021-06-28T15:23:09Z",
+              "updatedAt": "2021-06-28T15:25:16Z"
+            },
+            {
+              "originalPosition": 169,
+              "body": "```suggestion\r\nin case of nonce reuse.\r\n```",
+              "createdAt": "2021-06-28T15:23:32Z",
+              "updatedAt": "2021-06-28T15:25:16Z"
+            },
+            {
+              "originalPosition": 167,
+              "body": "```suggestion\r\nThe AEADs specified in this document are not secure\r\n```",
+              "createdAt": "2021-06-28T15:23:44Z",
+              "updatedAt": "2021-06-28T15:25:16Z"
+            },
+            {
+              "originalPosition": 173,
+              "body": "```suggestion\r\ngenerated securely, as described in {{?RFC8937}}.\r\n```",
+              "createdAt": "2021-06-28T15:24:37Z",
+              "updatedAt": "2021-06-28T15:25:16Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njk4NTIyNTQ5",
+          "commit": {
+            "abbreviatedOid": "f7d1375"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-02T22:14:48Z",
+          "updatedAt": "2021-07-02T22:14:48Z",
+          "comments": [
+            {
+              "originalPosition": 169,
+              "body": "I tried to rephrase to make clearer what I wanted to express: when nonce reuse is relevant. It's not relevant in Base mode, because there, everything is lost anyway.",
+              "createdAt": "2021-07-02T22:14:48Z",
+              "updatedAt": "2021-07-02T22:14:48Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njk4NTIzNDI2",
+          "commit": {
+            "abbreviatedOid": "f7d1375"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-02T22:17:50Z",
+          "updatedAt": "2021-07-02T22:17:50Z",
+          "comments": [
+            {
+              "originalPosition": 173,
+              "body": "Great thanks! I was not aware of this RFC :)",
+              "createdAt": "2021-07-02T22:17:50Z",
+              "updatedAt": "2021-07-02T22:17:50Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAwNDI4MjE3",
+          "commit": {
+            "abbreviatedOid": "f7d1375"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-06T22:24:40Z",
+          "updatedAt": "2021-07-06T22:25:55Z",
+          "comments": [
+            {
+              "originalPosition": 147,
+              "body": "```suggestion\r\nAs discussed in {{kci}}, HPKE ciphertexts are not forward-secure. In the Base and\r\n```",
+              "createdAt": "2021-07-06T22:24:40Z",
+              "updatedAt": "2021-07-06T22:25:55Z"
+            },
+            {
+              "originalPosition": 158,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2021-07-06T22:25:12Z",
+              "updatedAt": "2021-07-06T22:25:55Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 229,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njc5MDU2MDk2",
+      "title": "Add a Zig HPKE implementation",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/229",
+      "state": "MERGED",
+      "author": "jedisct1",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "An HPKE implementation in Zig, without any dependencies.",
+      "createdAt": "2021-06-28T13:36:51Z",
+      "updatedAt": "2021-06-28T14:58:00Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "0f5f56eaac5584b11bc464f54f47fb1b659ec4db",
+      "headRepository": "jedisct1/draft-irtf-cfrg-hpke",
+      "headRefName": "patch-5",
+      "headRefOid": "d9514e3594cc1a27109a8ef47453049eddd7c33a",
+      "closedAt": "2021-06-28T14:40:52Z",
+      "mergedAt": "2021-06-28T14:40:52Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "04b6a71f303459d9031ac4ff2689774332116188"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njk0MDQxNzI1",
+          "commit": {
+            "abbreviatedOid": "d9514e3"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-06-28T14:40:46Z",
+          "updatedAt": "2021-06-28T14:40:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 230,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njc5OTUyNzIw",
+      "title": "Address Spencer's review.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/230",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "cc @blipp ",
+      "createdAt": "2021-06-29T12:57:17Z",
+      "updatedAt": "2021-07-06T12:58:59Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "760a6c7a7ac7af6575d8afc0173c288b717cf523",
+      "headRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "headRefName": "caw/spencer",
+      "headRefOid": "4e87aab8b1aa602b2c2fa2053b10d07416e4baaf",
+      "closedAt": "2021-07-06T12:58:58Z",
+      "mergedAt": "2021-07-06T12:58:58Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "adcb868eadd6b66c65686406968a3d801e1502eb"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njk4NTM3NDQy",
+          "commit": {
+            "abbreviatedOid": "4e87aab"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-02T23:17:06Z",
+          "updatedAt": "2021-07-02T23:17:06Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "I thought a bit about this because I remembered we had a discussion about this repetitive formulation already a while ago.\r\n\r\nMy conclusion is that your suggestion is fine, and I am glad we get rid of the repetition. (Reasoning: we explicitly constructed HPKE and DHKEM such that even if Extract and Expand are instantiated by the same function, the properties will hold. We did this by the careful domain separation.)",
+              "createdAt": "2021-07-02T23:17:06Z",
+              "updatedAt": "2021-07-02T23:17:06Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3Njk4NTM3NTU2",
+          "commit": {
+            "abbreviatedOid": "4e87aab"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-02T23:17:39Z",
+          "updatedAt": "2021-07-02T23:17:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 231,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg0NzI1ODQ2",
+      "title": "Add guidance for using Setup and Context auxiliary info parameters.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/231",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I hesitate to add any more detail about what might be \"per-context\" and \"per-message,\" but I'm open to suggestions if folks think this can be stated more clearly.\r\n\r\nCloses #226.\r\n\r\ncc @davidben, @cjpatton, @martinthomson, @blipp, @franziskuskiefer ",
+      "createdAt": "2021-07-06T22:46:06Z",
+      "updatedAt": "2021-07-06T23:33:29Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "fb362354e3541f0d0ff554ad69715965df490392",
+      "headRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "headRefName": "caw/info-guidance",
+      "headRefOid": "cab4619b17af9569ce962a9610707c789587692c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAwNDQ2MjUw",
+          "commit": {
+            "abbreviatedOid": "aa2c111"
+          },
+          "author": "davidben",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "This works for me, though our implementation doesn't expose the single-shot APIs in the first place, so I'm not the best judge. I guess it may be less performant if you've got a *lot* of AAD bits, where info=label and aad=whatever might be more efficient. But this is probably not worth the fuss.",
+          "createdAt": "2021-07-06T23:03:37Z",
+          "updatedAt": "2021-07-06T23:09:24Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\r\noperations, i.e., with the `aad` parameter for `Open()` and `Seal()`, and the `exporter_context` parameter\r\n```",
+              "createdAt": "2021-07-06T23:03:37Z",
+              "updatedAt": "2021-07-06T23:09:24Z"
+            },
+            {
+              "originalPosition": 29,
+              "body": "In addition to redundancy, domain separation is a bit clearer. In ECH, we only include \"tls ech\" in the `info` parameter. `aad` is a plain ClientHelloOuterAAD. If another protocol decided to put the label in the other fields, injectivity is a little trickier.",
+              "createdAt": "2021-07-06T23:06:32Z",
+              "updatedAt": "2021-07-06T23:09:24Z"
             }
           ]
         }
