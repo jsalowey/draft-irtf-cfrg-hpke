@@ -5,11 +5,11 @@
 Internet Research Task Force (IRTF)                          R.L. Barnes
 Internet-Draft                                                     Cisco
 Intended status: Informational                              K. Bhargavan
-Expires: 7 January 2022                                          B. Lipp
+Expires: 8 January 2022                                          B. Lipp
                                                                    Inria
                                                                C.A. Wood
                                                               Cloudflare
-                                                             6 July 2021
+                                                             7 July 2021
 
 
                       Hybrid Public Key Encryption
@@ -48,12 +48,12 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2022.
+   This Internet-Draft will expire on 8 January 2022.
 
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 1]
+Barnes, et al.           Expires 8 January 2022                 [Page 1]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -103,13 +103,13 @@ Table of Contents
      7.3.  Authenticated Encryption with Associated Data (AEAD)
            Functions . . . . . . . . . . . . . . . . . . . . . . . .  26
    8.  API Considerations  . . . . . . . . . . . . . . . . . . . . .  26
-     8.1.  Auxiliary Application Information . . . . . . . . . . . .  26
+     8.1.  Auxiliary Authenticated Application Information . . . . .  27
      8.2.  Errors  . . . . . . . . . . . . . . . . . . . . . . . . .  27
    9.  Security Considerations . . . . . . . . . . . . . . . . . . .  28
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 2]
+Barnes, et al.           Expires 8 January 2022                 [Page 2]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -118,25 +118,25 @@ Internet-Draft                    HPKE                         July 2021
        9.1.1.  Key-Compromise Impersonation  . . . . . . . . . . . .  29
        9.1.2.  Computational Analysis  . . . . . . . . . . . . . . .  30
        9.1.3.  Post-Quantum Security . . . . . . . . . . . . . . . .  32
-     9.2.  Security Requirements on a KEM used within HPKE . . . . .  32
+     9.2.  Security Requirements on a KEM used within HPKE . . . . .  33
        9.2.1.  Encap/Decap Interface . . . . . . . . . . . . . . . .  33
        9.2.2.  AuthEncap/AuthDecap Interface . . . . . . . . . . . .  33
-       9.2.3.  KEM Key Reuse . . . . . . . . . . . . . . . . . . . .  33
+       9.2.3.  KEM Key Reuse . . . . . . . . . . . . . . . . . . . .  34
      9.3.  Security Requirements on a KDF  . . . . . . . . . . . . .  34
      9.4.  Security Requirements on an AEAD  . . . . . . . . . . . .  34
      9.5.  Pre-Shared Key Recommendations  . . . . . . . . . . . . .  34
      9.6.  Domain Separation . . . . . . . . . . . . . . . . . . . .  35
-     9.7.  Application Embedding and Non-Goals . . . . . . . . . . .  35
+     9.7.  Application Embedding and Non-Goals . . . . . . . . . . .  36
        9.7.1.  Message Order and Message Loss  . . . . . . . . . . .  36
        9.7.2.  Downgrade Prevention  . . . . . . . . . . . . . . . .  36
        9.7.3.  Replay Protection . . . . . . . . . . . . . . . . . .  36
-       9.7.4.  Forward Secrecy . . . . . . . . . . . . . . . . . . .  36
+       9.7.4.  Forward Secrecy . . . . . . . . . . . . . . . . . . .  37
        9.7.5.  Bad Ephemeral Randomness  . . . . . . . . . . . . . .  37
        9.7.6.  Hiding Plaintext Length . . . . . . . . . . . . . . .  37
        9.7.7.  Key-Compromise Impersonation  . . . . . . . . . . . .  37
-     9.8.  Bidirectional Encryption  . . . . . . . . . . . . . . . .  37
+     9.8.  Bidirectional Encryption  . . . . . . . . . . . . . . . .  38
      9.9.  Metadata Protection . . . . . . . . . . . . . . . . . . .  38
-   10. Message Encoding  . . . . . . . . . . . . . . . . . . . . . .  38
+   10. Message Encoding  . . . . . . . . . . . . . . . . . . . . . .  39
    11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  39
      11.1.  KEM Identifiers  . . . . . . . . . . . . . . . . . . . .  39
      11.2.  KDF Identifiers  . . . . . . . . . . . . . . . . . . . .  40
@@ -165,7 +165,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 3]
+Barnes, et al.           Expires 8 January 2022                 [Page 3]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -221,7 +221,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 4]
+Barnes, et al.           Expires 8 January 2022                 [Page 4]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -277,7 +277,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 5]
+Barnes, et al.           Expires 8 January 2022                 [Page 5]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -333,7 +333,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 6]
+Barnes, et al.           Expires 8 January 2022                 [Page 6]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -389,7 +389,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 7]
+Barnes, et al.           Expires 8 January 2022                 [Page 7]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -445,7 +445,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 8]
+Barnes, et al.           Expires 8 January 2022                 [Page 8]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -501,7 +501,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                 [Page 9]
+Barnes, et al.           Expires 8 January 2022                 [Page 9]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -557,7 +557,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 10]
+Barnes, et al.           Expires 8 January 2022                [Page 10]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -613,7 +613,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 11]
+Barnes, et al.           Expires 8 January 2022                [Page 11]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -669,7 +669,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 12]
+Barnes, et al.           Expires 8 January 2022                [Page 12]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -725,7 +725,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 13]
+Barnes, et al.           Expires 8 January 2022                [Page 13]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -781,7 +781,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 14]
+Barnes, et al.           Expires 8 January 2022                [Page 14]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -837,7 +837,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 15]
+Barnes, et al.           Expires 8 January 2022                [Page 15]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -893,7 +893,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 16]
+Barnes, et al.           Expires 8 January 2022                [Page 16]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -949,7 +949,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 17]
+Barnes, et al.           Expires 8 January 2022                [Page 17]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1005,7 +1005,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 18]
+Barnes, et al.           Expires 8 January 2022                [Page 18]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1061,7 +1061,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 19]
+Barnes, et al.           Expires 8 January 2022                [Page 19]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1117,7 +1117,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 20]
+Barnes, et al.           Expires 8 January 2022                [Page 20]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1173,7 +1173,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 21]
+Barnes, et al.           Expires 8 January 2022                [Page 21]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1229,7 +1229,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 22]
+Barnes, et al.           Expires 8 January 2022                [Page 22]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1285,7 +1285,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 23]
+Barnes, et al.           Expires 8 January 2022                [Page 23]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1341,7 +1341,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 24]
+Barnes, et al.           Expires 8 January 2022                [Page 24]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1397,7 +1397,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 25]
+Barnes, et al.           Expires 8 January 2022                [Page 25]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -1442,7 +1442,23 @@ Internet-Draft                    HPKE                         July 2021
 
 8.  API Considerations
 
-8.1.  Auxiliary Application Information
+   This section documents considerations for interfaces to
+   implementations of HPKE.  This includes error handling considerations
+   and recommendations that improve interoperability when HPKE is used
+   in applications.
+
+
+
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 26]
+
+Internet-Draft                    HPKE                         July 2021
+
+
+8.1.  Auxiliary Authenticated Application Information
 
    HPKE has two places at which applications can specify auxiliary
    authenticated information: (1) during context construction via the
@@ -1450,14 +1466,6 @@ Internet-Draft                    HPKE                         July 2021
    the "aad" parameter for "Open()" and "Seal()", and the
    "exporter_context" parameter for "Export()".  Application information
    applicable to multiple operations on a single Context should use the
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 26]
-
-Internet-Draft                    HPKE                         July 2021
-
-
    Setup "info" parameter.  This avoids redundantly processing this
    information for each Context operation.  In contrast, application
    information that varies on a per-message basis should be specified
@@ -1467,7 +1475,8 @@ Internet-Draft                    HPKE                         July 2021
    Section 6 should use the Setup "info" parameter for specifying
    auxiliary authenticated information.  Implementations which only
    expose single-shot APIs should not allow applications to use both
-   Setup and Context auxiliary information parameters.
+   Setup "info" and Context "aad" or "exporter_context" auxiliary
+   information parameters.
 
 8.2.  Errors
 
@@ -1495,6 +1504,16 @@ Internet-Draft                    HPKE                         July 2021
 
    *  "DeriveKeyPairError": Key pair derivation failure; Section 7.1.3.
 
+
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 27]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    Implicit errors may also occur.  As an example, certain classes of
    failures, e.g., malformed recipient public keys, may not yield
    explicit errors.  For example, for the DHKEM variant described in
@@ -1506,13 +1525,6 @@ Internet-Draft                    HPKE                         July 2021
    "AuthDecap()" function will produce invalid output if given the wrong
    sender public key.  This error is not detectable until subsequent
    AEAD decryption.
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 27]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    The errors in this document are meant as a guide for implementors.
    They are not an exhaustive list of all the errors an implementation
@@ -1551,6 +1563,13 @@ Internet-Draft                    HPKE                         July 2021
       from a uniformly random bitstring of equal length, i.e.,
       "Context.Export" is a variable-length PRF
 
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 28]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    *  Sender authentication: Proof of sender origin for PSK, Auth, and
       AuthPSK modes
 
@@ -1561,14 +1580,6 @@ Internet-Draft                    HPKE                         July 2021
    HPKE mitigates malleability problems (called benign malleability
    [SECG]) in prior public key encryption standards based on ECIES by
    including all public keys in the context of the key schedule.
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 28]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    HPKE does not provide forward secrecy with respect to recipient
    compromise.  In the Base and Auth modes, the secrecy properties are
@@ -1607,24 +1618,19 @@ Internet-Draft                    HPKE                         July 2021
    generally possible on HPKE because KEM ciphertexts are not bound to
    HPKE messages.  An adversary who knows a recipient's private key can
    decapsulate an observed KEM ciphertext, compute the key schedule, and
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 29]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    encrypt an arbitrary message that the recipient will accept as coming
    from the original sender.  Importantly, this is possible even with a
    KEM that is resistant to key-compromise impersonation attacks.  As a
    result, mitigating this issue requires fundamental changes that are
    out-of-scope of this specification.
-
-
-
-
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 29]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    Applications that require resistance against key-compromise
    impersonation SHOULD take extra steps to prevent this attack.  One
@@ -1665,6 +1671,17 @@ Internet-Draft                    HPKE                         July 2021
    of HPKE can be viewed and analyzed as flavors of signcryption
    [SigncryptionDZ10].
 
+
+
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 30]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    A preliminary computational analysis of all HPKE modes has been done
    in [HPKEAnalysis], indicating asymptotic security for the case where
    the KEM is DHKEM, the AEAD is any IND-CPA and INT-CTXT-secure scheme,
@@ -1672,15 +1689,6 @@ Internet-Draft                    HPKE                         July 2021
 
    *  DH group: The gap Diffie-Hellman (GDH) problem is hard in the
       appropriate subgroup [GAP].
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 30]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    *  "Extract()" and "Expand()": "Extract()" can be modeled as a random
       oracle.  "Expand()" can be modeled as a pseudorandom function,
@@ -1722,6 +1730,14 @@ Internet-Draft                    HPKE                         July 2021
    A detailed computational analysis of HPKE's Auth mode single-shot
    encryption API has been done in [ABHKLR20].  The paper defines
    security notions for authenticated KEMs and for authenticated public
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 31]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    key encryption, using the outsider and insider security terminology
    known from signcryption [SigncryptionDZ10].  The analysis proves that
    DHKEM's "AuthEncap()"/"AuthDecap()" interface fulfills these notions
@@ -1729,14 +1745,6 @@ Internet-Draft                    HPKE                         July 2021
    indicates exact security bounds, under the assumption that the gap
    Diffie-Hellman (GDH) problem is hard in the appropriate subgroup
    [GAP], and that HKDF can be modeled as a random oracle.
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 31]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    Further, [ABHKLR20] proves composition theorems, showing that HPKE's
    Auth mode fulfills the security notions of authenticated public key
@@ -1778,21 +1786,19 @@ Internet-Draft                    HPKE                         July 2021
    setting, this model needs adaption to, for example, the quantum
    random oracle model.
 
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 32]
+
+Internet-Draft                    HPKE                         July 2021
+
+
 9.2.  Security Requirements on a KEM used within HPKE
 
    A KEM used within HPKE MUST allow HPKE to satisfy its desired
    security properties described in Section 9.1.  Section 9.6 lists
    requirements concerning domain separation.
-
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 32]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    In particular, the KEM shared secret MUST be a uniformly random byte
    string of length "Nsecret".  This means, for instance, that it would
@@ -1833,6 +1839,17 @@ Internet-Draft                    HPKE                         July 2021
    Auth security notion of HPKE described in Section 9.1, a definition
    of Insider-Auth security for KEMs used within HPKE is not useful.
 
+
+
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 33]
+
+Internet-Draft                    HPKE                         July 2021
+
+
 9.2.3.  KEM Key Reuse
 
    An "ikm" input to "DeriveKeyPair()" (Section 7.1.3) MUST NOT be
@@ -1841,14 +1858,6 @@ Internet-Draft                    HPKE                         July 2021
 
    The randomness used in "Encap()" and "AuthEncap()" to generate the
    KEM shared secret or its encapsulation MUST NOT be reused elsewhere.
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 33]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    As a sender or recipient KEM key pair works with all modes, it can be
    used with multiple modes in parallel.  HPKE is constructed to be
@@ -1888,6 +1897,15 @@ Internet-Draft                    HPKE                         July 2021
    keys of one participant.  In the PSK mode this is trivially the case
    if the adversary acts as sender.
 
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 34]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    To recover a lower entropy PSK, an attacker in this scenario can
    trivially perform a dictionary attack.  Given a set "S" of possible
    PSK values, the attacker generates an HPKE ciphertext for each value
@@ -1898,14 +1916,6 @@ Internet-Draft                    HPKE                         July 2021
    set of "S" possible PSK values, with |S| = m*k, in roughly m + log k
    queries to the oracle using ciphertexts of length proportional to k,
    the maximum message length in blocks.  The PSK must therefore be
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 34]
-
-Internet-Draft                    HPKE                         July 2021
-
-
    chosen with sufficient entropy so that m + log k is prohibitive for
    attackers (e.g., 2^128).  Future specifications can define new AEAD
    algorithms which are key-committing.
@@ -1944,6 +1954,14 @@ Internet-Draft                    HPKE                         July 2021
    same Diffie-Hellman or KEM shared secret as in another scheme or
    version.
 
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 35]
+
+Internet-Draft                    HPKE                         July 2021
+
+
 9.7.  Application Embedding and Non-Goals
 
    HPKE is designed to be a fairly low-level mechanism.  As a result, it
@@ -1951,16 +1969,6 @@ Internet-Draft                    HPKE                         July 2021
    which HPKE is embedded, and leaves certain security properties to be
    provided by other mechanisms.  Otherwise said, certain properties are
    out-of-scope for HPKE.
-
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 35]
-
-Internet-Draft                    HPKE                         July 2021
-
 
 9.7.1.  Message Order and Message Loss
 
@@ -1998,6 +2006,18 @@ Internet-Draft                    HPKE                         July 2021
    stream of ciphertexts resulting from a given context.  HPKE provides
    no other replay protection.
 
+
+
+
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 36]
+
+Internet-Draft                    HPKE                         July 2021
+
+
 9.7.4.  Forward Secrecy
 
    HPKE ciphertexts are not forward secret with respect to recipient
@@ -2010,13 +2030,6 @@ Internet-Draft                    HPKE                         July 2021
    in all modes.  This is because ephemeral randomness is used on the
    sender's side, which is supposed to be erased directly after
    computation of the KEM shared secret and ciphertext.
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 36]
-
-Internet-Draft                    HPKE                         July 2021
-
 
 9.7.5.  Bad Ephemeral Randomness
 
@@ -2053,6 +2066,14 @@ Internet-Draft                    HPKE                         July 2021
    In the PSK and AuthPSK modes, a given ciphertext can be decrypted if
    the recipient's private key and the PSK are compromised.
 
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 37]
+
+Internet-Draft                    HPKE                         July 2021
+
+
 9.8.  Bidirectional Encryption
 
    As discussed in Section 5.2, HPKE encryption is unidirectional from
@@ -2064,15 +2085,6 @@ Internet-Draft                    HPKE                         July 2021
    As an example, if an application needs AEAD encryption from recipient
    to sender, it can derive a key and nonce from the corresponding HPKE
    context as follows:
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 37]
-
-Internet-Draft                    HPKE                         July 2021
-
 
    key = context.Export("response key", Nk)
    nonce = context.Export("response nonce", Nn)
@@ -2111,6 +2123,13 @@ Internet-Draft                    HPKE                         July 2021
    schemes in [BNT19] could be extended to cover other metadata.
    However, this construction would require further analysis.
 
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 38]
+
+Internet-Draft                    HPKE                         July 2021
+
+
 10.  Message Encoding
 
    This document does not specify a wire format encoding for HPKE
@@ -2121,14 +2140,6 @@ Internet-Draft                    HPKE                         July 2021
    a non-implicit value is the recipient public key used for
    encapsulation, which may be needed if a recipient has more than one
    public key.
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 38]
-
-Internet-Draft                    HPKE                         July 2021
-
 
 11.  IANA Considerations
 
@@ -2166,6 +2177,15 @@ Internet-Draft                    HPKE                         July 2021
    *  Npk: The length in bytes of an encoded public key for the
       algorithm
 
+
+
+
+
+Barnes, et al.           Expires 8 January 2022                [Page 39]
+
+Internet-Draft                    HPKE                         July 2021
+
+
    *  Nsk: The length in bytes of an encoded private key for the
       algorithm
 
@@ -2175,16 +2195,6 @@ Internet-Draft                    HPKE                         July 2021
    *  Reference: Where this algorithm is defined
 
    Initial contents: Provided in Table 2
-
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 39]
-
-Internet-Draft                    HPKE                         July 2021
-
 
 11.2.  KDF Identifiers
 
@@ -2227,17 +2237,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-Barnes, et al.           Expires 7 January 2022                [Page 40]
+Barnes, et al.           Expires 8 January 2022                [Page 40]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2293,7 +2293,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 41]
+Barnes, et al.           Expires 8 January 2022                [Page 41]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2349,7 +2349,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 42]
+Barnes, et al.           Expires 8 January 2022                [Page 42]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2405,7 +2405,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 43]
+Barnes, et al.           Expires 8 January 2022                [Page 43]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2461,7 +2461,7 @@ Internet-Draft                    HPKE                         July 2021
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 44]
+Barnes, et al.           Expires 8 January 2022                [Page 44]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2517,7 +2517,7 @@ A.1.1.  Base Setup Information
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 45]
+Barnes, et al.           Expires 8 January 2022                [Page 45]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2573,7 +2573,7 @@ A.1.1.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 46]
+Barnes, et al.           Expires 8 January 2022                [Page 46]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2629,7 +2629,7 @@ A.1.1.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 47]
+Barnes, et al.           Expires 8 January 2022                [Page 47]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2685,7 +2685,7 @@ A.1.2.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 48]
+Barnes, et al.           Expires 8 January 2022                [Page 48]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2741,7 +2741,7 @@ A.1.2.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 49]
+Barnes, et al.           Expires 8 January 2022                [Page 49]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2797,7 +2797,7 @@ A.1.3.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 50]
+Barnes, et al.           Expires 8 January 2022                [Page 50]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2853,7 +2853,7 @@ A.1.3.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 51]
+Barnes, et al.           Expires 8 January 2022                [Page 51]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2909,7 +2909,7 @@ A.1.4.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 52]
+Barnes, et al.           Expires 8 January 2022                [Page 52]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -2965,7 +2965,7 @@ A.1.4.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 53]
+Barnes, et al.           Expires 8 January 2022                [Page 53]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3021,7 +3021,7 @@ A.2.1.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 54]
+Barnes, et al.           Expires 8 January 2022                [Page 54]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3077,7 +3077,7 @@ A.2.1.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 55]
+Barnes, et al.           Expires 8 January 2022                [Page 55]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3133,7 +3133,7 @@ A.2.2.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 56]
+Barnes, et al.           Expires 8 January 2022                [Page 56]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3189,7 +3189,7 @@ A.2.2.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 57]
+Barnes, et al.           Expires 8 January 2022                [Page 57]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3245,7 +3245,7 @@ A.2.3.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 58]
+Barnes, et al.           Expires 8 January 2022                [Page 58]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3301,7 +3301,7 @@ A.2.3.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 59]
+Barnes, et al.           Expires 8 January 2022                [Page 59]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3357,7 +3357,7 @@ A.2.4.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 60]
+Barnes, et al.           Expires 8 January 2022                [Page 60]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3413,7 +3413,7 @@ A.2.4.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 61]
+Barnes, et al.           Expires 8 January 2022                [Page 61]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3469,7 +3469,7 @@ A.3.1.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 62]
+Barnes, et al.           Expires 8 January 2022                [Page 62]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3525,7 +3525,7 @@ A.3.1.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 63]
+Barnes, et al.           Expires 8 January 2022                [Page 63]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3581,7 +3581,7 @@ A.3.2.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 64]
+Barnes, et al.           Expires 8 January 2022                [Page 64]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3637,7 +3637,7 @@ A.3.2.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 65]
+Barnes, et al.           Expires 8 January 2022                [Page 65]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3693,7 +3693,7 @@ f152759972660eb0e1db880835abd5de1c39c8e9cd269f6f082ed80e28acb164
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 66]
+Barnes, et al.           Expires 8 January 2022                [Page 66]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3749,7 +3749,7 @@ A.3.3.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 67]
+Barnes, et al.           Expires 8 January 2022                [Page 67]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3805,7 +3805,7 @@ exporter_secret:
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 68]
+Barnes, et al.           Expires 8 January 2022                [Page 68]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3861,7 +3861,7 @@ A.3.4.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 69]
+Barnes, et al.           Expires 8 January 2022                [Page 69]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3917,7 +3917,7 @@ e26d494f4855dff0d0165f27ce57756f7f16baca006539bb8e4518987ba610480ac03efa
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 70]
+Barnes, et al.           Expires 8 January 2022                [Page 70]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -3973,7 +3973,7 @@ A.4.1.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 71]
+Barnes, et al.           Expires 8 January 2022                [Page 71]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4029,7 +4029,7 @@ exporter_secret: 50c0a182b6f94b4c0bd955c4aa20df01f282cc12c43065a0812fe4d
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 72]
+Barnes, et al.           Expires 8 January 2022                [Page 72]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4085,7 +4085,7 @@ A.4.2.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 73]
+Barnes, et al.           Expires 8 January 2022                [Page 73]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4141,7 +4141,7 @@ A.4.3.  Auth Setup Information
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 74]
+Barnes, et al.           Expires 8 January 2022                [Page 74]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4197,7 +4197,7 @@ A.4.3.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 75]
+Barnes, et al.           Expires 8 January 2022                [Page 75]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4253,7 +4253,7 @@ A.4.3.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 76]
+Barnes, et al.           Expires 8 January 2022                [Page 76]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4309,7 +4309,7 @@ A.4.4.  AuthPSK Setup Information
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 77]
+Barnes, et al.           Expires 8 January 2022                [Page 77]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4365,7 +4365,7 @@ A.4.4.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 78]
+Barnes, et al.           Expires 8 January 2022                [Page 78]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4421,7 +4421,7 @@ A.4.4.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 79]
+Barnes, et al.           Expires 8 January 2022                [Page 79]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4477,7 +4477,7 @@ A.5.1.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 80]
+Barnes, et al.           Expires 8 January 2022                [Page 80]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4533,7 +4533,7 @@ A.5.1.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 81]
+Barnes, et al.           Expires 8 January 2022                [Page 81]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4589,7 +4589,7 @@ A.5.2.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 82]
+Barnes, et al.           Expires 8 January 2022                [Page 82]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4645,7 +4645,7 @@ A.5.2.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 83]
+Barnes, et al.           Expires 8 January 2022                [Page 83]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4701,7 +4701,7 @@ dba6e307f71769ba11e2c687cc19592f9d436da0c81e772d7a8a9fd28e54355f
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 84]
+Barnes, et al.           Expires 8 January 2022                [Page 84]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4757,7 +4757,7 @@ A.5.3.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 85]
+Barnes, et al.           Expires 8 January 2022                [Page 85]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4813,7 +4813,7 @@ exporter_secret:
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 86]
+Barnes, et al.           Expires 8 January 2022                [Page 86]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4869,7 +4869,7 @@ A.5.4.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 87]
+Barnes, et al.           Expires 8 January 2022                [Page 87]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4925,7 +4925,7 @@ A.6.1.  Base Setup Information
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 88]
+Barnes, et al.           Expires 8 January 2022                [Page 88]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -4981,7 +4981,7 @@ A.6.1.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 89]
+Barnes, et al.           Expires 8 January 2022                [Page 89]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5037,7 +5037,7 @@ A.6.1.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 90]
+Barnes, et al.           Expires 8 January 2022                [Page 90]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5093,7 +5093,7 @@ A.6.2.  PSK Setup Information
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 91]
+Barnes, et al.           Expires 8 January 2022                [Page 91]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5149,7 +5149,7 @@ A.6.2.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 92]
+Barnes, et al.           Expires 8 January 2022                [Page 92]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5205,7 +5205,7 @@ A.6.2.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 93]
+Barnes, et al.           Expires 8 January 2022                [Page 93]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5261,7 +5261,7 @@ A.6.3.  Auth Setup Information
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 94]
+Barnes, et al.           Expires 8 January 2022                [Page 94]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5317,7 +5317,7 @@ exporter_secret: 80466a9d9cc5112ddad297e817e038801e15fa18152bc4dc010a35d
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 95]
+Barnes, et al.           Expires 8 January 2022                [Page 95]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5373,7 +5373,7 @@ A.6.3.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 96]
+Barnes, et al.           Expires 8 January 2022                [Page 96]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5429,7 +5429,7 @@ psk_id: 456e6e796e20447572696e206172616e204d6f726961
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 97]
+Barnes, et al.           Expires 8 January 2022                [Page 97]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5485,7 +5485,7 @@ A.6.4.1.  Encryptions
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 98]
+Barnes, et al.           Expires 8 January 2022                [Page 98]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5541,7 +5541,7 @@ A.6.4.2.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022                [Page 99]
+Barnes, et al.           Expires 8 January 2022                [Page 99]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5597,7 +5597,7 @@ A.7.1.1.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022               [Page 100]
+Barnes, et al.           Expires 8 January 2022               [Page 100]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5653,7 +5653,7 @@ A.7.2.1.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022               [Page 101]
+Barnes, et al.           Expires 8 January 2022               [Page 101]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5709,7 +5709,7 @@ A.7.3.1.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022               [Page 102]
+Barnes, et al.           Expires 8 January 2022               [Page 102]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5765,7 +5765,7 @@ A.7.4.1.  Exported Values
 
 
 
-Barnes, et al.           Expires 7 January 2022               [Page 103]
+Barnes, et al.           Expires 8 January 2022               [Page 103]
 
 Internet-Draft                    HPKE                         July 2021
 
@@ -5821,4 +5821,4 @@ Authors' Addresses
 
 
 
-Barnes, et al.           Expires 7 January 2022               [Page 104]
+Barnes, et al.           Expires 8 January 2022               [Page 104]
