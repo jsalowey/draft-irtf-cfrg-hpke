@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-07-06T23:34:07.916068+00:00",
+  "timestamp": "2021-07-07T16:07:21.869479+00:00",
   "repo": "cfrg/draft-irtf-cfrg-hpke",
   "labels": [
     {
@@ -2507,15 +2507,15 @@
       "id": "MDU6SXNzdWU5MDk5MDMxOTA=",
       "title": "Guidance on how to use info and aad",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/issues/226",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "davidben",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Should the spec include some guidance (not sure how detailed or for what audience) on when to use the `info` parameter to `Setup*` and when to use `aad` to `Seal` and `Open`? In particular, for protocols that only need the single-shot mode, both seem to serve roughly the same purpose. (Though they do work very differently internally...)\r\n\r\nOne difference I can see is you're better off sticking your label string into `info` since other protocols might not be single-shot. (Is it worth a suggestion to incorporate a label string into `info`.) @chris-wood also points out that processing `aad` with your AEAD's universal hash function is likely faster than processing `info` with your KDF. So there's probably some benefit to keeping bulk data in the `aad` side of things. But I also expect this is negligible compared to the KEM. :-)\r\n\r\n Beyond that, I'm not sure. `aad` is per-encryption and `info` is per-context, but what \"feels\" per-encryption vs per-context is a little hazy for single-shot uses.\r\n\r\n(CC @csharrison)",
       "createdAt": "2021-06-02T21:33:41Z",
-      "updatedAt": "2021-06-02T21:41:44Z",
-      "closedAt": null,
+      "updatedAt": "2021-07-07T15:49:15Z",
+      "closedAt": "2021-07-07T15:49:15Z",
       "comments": [
         {
           "author": "blipp",
@@ -17150,25 +17150,35 @@
       "id": "MDExOlB1bGxSZXF1ZXN0Njg0NzI1ODQ2",
       "title": "Add guidance for using Setup and Context auxiliary info parameters.",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/231",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "I hesitate to add any more detail about what might be \"per-context\" and \"per-message,\" but I'm open to suggestions if folks think this can be stated more clearly.\r\n\r\nCloses #226.\r\n\r\ncc @davidben, @cjpatton, @martinthomson, @blipp, @franziskuskiefer ",
       "createdAt": "2021-07-06T22:46:06Z",
-      "updatedAt": "2021-07-06T23:33:29Z",
+      "updatedAt": "2021-07-07T15:49:15Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
       "baseRefName": "master",
       "baseRefOid": "fb362354e3541f0d0ff554ad69715965df490392",
       "headRepository": "cfrg/draft-irtf-cfrg-hpke",
       "headRefName": "caw/info-guidance",
-      "headRefOid": "cab4619b17af9569ce962a9610707c789587692c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "f46d3a1a8e03383a5a27dde8570f089730b1ef48",
+      "closedAt": "2021-07-07T15:49:15Z",
+      "mergedAt": "2021-07-07T15:49:15Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "c73ccaaaf1329954deec83fcb26bcced798b80ee"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I guess it may be less performant if you've got a lot of AAD bits, where info=label and aad=whatever might be more efficient. But this is probably not worth the fuss.\r\n\r\nI figure it's not worth the fuss since both seem to have the same basic security properties. ",
+          "createdAt": "2021-07-06T23:36:35Z",
+          "updatedAt": "2021-07-06T23:36:35Z"
+        }
+      ],
       "reviews": [
         {
           "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAwNDQ2MjUw",
@@ -17193,6 +17203,126 @@
               "body": "In addition to redundancy, domain separation is a bit clearer. In ECH, we only include \"tls ech\" in the `info` parameter. `aad` is a plain ClientHelloOuterAAD. If another protocol decided to put the label in the other fields, injectivity is a little trickier.",
               "createdAt": "2021-07-06T23:06:32Z",
               "updatedAt": "2021-07-06T23:09:24Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAwNDU4NjY2",
+          "commit": {
+            "abbreviatedOid": "cab4619"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-06T23:35:08Z",
+          "updatedAt": "2021-07-06T23:35:08Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "Yeah, I don't really have a better way to say \"domain separation via the key schedule\" is preferred without just making this text less clear.",
+              "createdAt": "2021-07-06T23:35:08Z",
+              "updatedAt": "2021-07-06T23:35:08Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAwNTE2OTc0",
+          "commit": {
+            "abbreviatedOid": "cab4619"
+          },
+          "author": "martinthomson",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-07T02:14:40Z",
+          "updatedAt": "2021-07-07T02:14:40Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Don't leave the lead-in empty.\r\n\r\nThis section documents considerations for interfaces to implementations of HPKE.  This includes recommendations that improve interoperability when HPKE is used in applications.\r\n",
+              "createdAt": "2021-07-07T02:14:40Z",
+              "updatedAt": "2021-07-07T02:14:40Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAwOTMyMTI5",
+          "commit": {
+            "abbreviatedOid": "cab4619"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-07T12:17:42Z",
+          "updatedAt": "2021-07-07T12:18:03Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "In the text, \u201cauxiliary _authenticated_ information\u201d is used twice. We could use that in the title, too.",
+              "createdAt": "2021-07-07T12:17:42Z",
+              "updatedAt": "2021-07-07T12:18:03Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAxMTY4ODY3",
+          "commit": {
+            "abbreviatedOid": "cab4619"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-07T15:42:16Z",
+          "updatedAt": "2021-07-07T15:42:28Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "I would refer to these as `info` and `aad` rather than Setup and Context.  Or \"Setup `info`\" and \"Context `aad`\".",
+              "createdAt": "2021-07-07T15:42:16Z",
+              "updatedAt": "2021-07-07T15:42:28Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAxMTc2MzY2",
+          "commit": {
+            "abbreviatedOid": "f46d3a1"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-07T15:48:58Z",
+          "updatedAt": "2021-07-07T15:48:58Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "\ud83d\udc4d done",
+              "createdAt": "2021-07-07T15:48:58Z",
+              "updatedAt": "2021-07-07T15:48:58Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAxMTc2NDc5",
+          "commit": {
+            "abbreviatedOid": "f46d3a1"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-07T15:49:04Z",
+          "updatedAt": "2021-07-07T15:49:04Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "Done.",
+              "createdAt": "2021-07-07T15:49:04Z",
+              "updatedAt": "2021-07-07T15:49:04Z"
             }
           ]
         }
