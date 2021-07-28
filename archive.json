@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-07-07T16:07:21.869479+00:00",
+  "timestamp": "2021-07-28T21:56:55.200316+00:00",
   "repo": "cfrg/draft-irtf-cfrg-hpke",
   "labels": [
     {
@@ -17325,6 +17325,212 @@
               "updatedAt": "2021-07-07T15:49:04Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 232,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg2MTYxNDQz",
+      "title": "Consolidate redundant forward secrecy text",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/232",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "cc @blipp ",
+      "createdAt": "2021-07-08T16:26:17Z",
+      "updatedAt": "2021-07-08T17:13:12Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "c73ccaaaf1329954deec83fcb26bcced798b80ee",
+      "headRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "headRefName": "chris-wood-patch-1",
+      "headRefOid": "06aa7b754a027ada05cb54c26efa5df776b1f86c",
+      "closedAt": "2021-07-08T17:13:12Z",
+      "mergedAt": "2021-07-08T17:13:12Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "4801ee0d6f9884b705a9db5b600417e3762501ad"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAyMzEzMDA3",
+          "commit": {
+            "abbreviatedOid": "52f3832"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-08T17:11:18Z",
+          "updatedAt": "2021-07-08T17:11:33Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\n```\r\n\r\nUh, I am sorry about this, it seems I messed up the merge from master into my last pull request (offending commit: https://github.com/cfrg/draft-irtf-cfrg-hpke/commit/2a1d2da03424d82946775314c0553bf7ab0bf4e9).\r\n\r\nI think we should just delete this paragraph. Almost the same text is already in 9.1, and the two paragraphs here are more precise.\r\n\r\nAdditional suggestion: In 9.1 in the paragraph about forward secrecy, we could link to 9.7.4 directly instead of only to 9.7.",
+              "createdAt": "2021-07-08T17:11:18Z",
+              "updatedAt": "2021-07-08T17:11:33Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzAyMzE0Mjc2",
+          "commit": {
+            "abbreviatedOid": "52f3832"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-08T17:12:44Z",
+          "updatedAt": "2021-07-08T17:12:45Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Works for me, too!",
+              "createdAt": "2021-07-08T17:12:44Z",
+              "updatedAt": "2021-07-08T17:12:45Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 233,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njg4ODYxMzcx",
+      "title": "Clarify security requirements for future specifications",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/233",
+      "state": "MERGED",
+      "author": "blipp",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Draft based on feedback from Dan on the CFRG mailinglist.",
+      "createdAt": "2021-07-13T11:21:09Z",
+      "updatedAt": "2021-07-13T16:42:25Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "4801ee0d6f9884b705a9db5b600417e3762501ad",
+      "headRepository": "blipp/draft-irtf-cfrg-hpke",
+      "headRefName": "blipp_dan_sec",
+      "headRefOid": "18bb75101ba115dbfc55c5777b4c8f2e30d17b7d",
+      "closedAt": "2021-07-13T16:42:24Z",
+      "mergedAt": "2021-07-13T16:42:24Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "8ba4e25c656df4bc0d56a147a8f6b1d4c8c26ee9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzA1NDIwNDQ0",
+          "commit": {
+            "abbreviatedOid": "18bb751"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-13T16:42:19Z",
+          "updatedAt": "2021-07-13T16:42:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 234,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njk4MTI3NjQ1",
+      "title": "Note that Encap is fallible.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/234",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "`DH()` can fail, so `Encap()` can fail as well. This PR makes this explicit, and notes that some implementations may choose to upcast errors if desired.\r\n\r\ncc @rozbb ",
+      "createdAt": "2021-07-27T19:19:38Z",
+      "updatedAt": "2021-07-27T19:53:13Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "8ba4e25c656df4bc0d56a147a8f6b1d4c8c26ee9",
+      "headRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "headRefName": "caw/encap-error-symmetry",
+      "headRefOid": "125d31e37e81837764d0ff4e673e87f448316925",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "rozbb",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "One thing I think is still unclear: when `DH()` raises `ValidationError` when being called by `Decap()` does that get upcasted to  a `DecapError` or not? If so, then is it optional like in `Encap()`? If not, then when is a `DecapError` ever created?",
+          "createdAt": "2021-07-27T19:27:18Z",
+          "updatedAt": "2021-07-27T19:27:18Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> One thing I think is still unclear: when DH() raises ValidationError when being called by Decap() does that get upcasted to a DecapError or not? If so, then is it optional like in Encap()? If not, then when is a DecapError ever created?\r\n\r\nThis seems to be an implementation-specific decision, so, yes, it's optional. Future KEMs might make EncapError or DecapError more explicit, so I think it's best to leave them as-is for now.",
+          "createdAt": "2021-07-27T19:29:13Z",
+          "updatedAt": "2021-07-27T19:29:13Z"
+        },
+        {
+          "author": "rozbb",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Ok I made a comment that clarifies that",
+          "createdAt": "2021-07-27T19:32:11Z",
+          "updatedAt": "2021-07-27T19:32:11Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzE2MzAxNDAy",
+          "commit": {
+            "abbreviatedOid": "01c5cdb"
+          },
+          "author": "rozbb",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-07-27T19:31:47Z",
+          "updatedAt": "2021-07-27T19:31:47Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "just for symmetry:\r\n\"into an `EncapError` (resp. `DecapError`) from `Encap()` (resp. `Decap()`)\"",
+              "createdAt": "2021-07-27T19:31:47Z",
+              "updatedAt": "2021-07-27T19:31:47Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzE2MzA2NjI4",
+          "commit": {
+            "abbreviatedOid": "125d31e"
+          },
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-27T19:37:29Z",
+          "updatedAt": "2021-07-27T19:37:29Z",
+          "comments": []
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NzE2MzE5MzMz",
+          "commit": {
+            "abbreviatedOid": "125d31e"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-07-27T19:53:13Z",
+          "updatedAt": "2021-07-27T19:53:13Z",
+          "comments": []
         }
       ]
     }
