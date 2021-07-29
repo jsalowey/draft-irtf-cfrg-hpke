@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2021-07-28T21:56:55.200316+00:00",
+  "timestamp": "2021-07-29T22:59:04.819335+00:00",
   "repo": "cfrg/draft-irtf-cfrg-hpke",
   "labels": [
     {
@@ -17444,24 +17444,26 @@
       "id": "MDExOlB1bGxSZXF1ZXN0Njk4MTI3NjQ1",
       "title": "Note that Encap is fallible.",
       "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/234",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "`DH()` can fail, so `Encap()` can fail as well. This PR makes this explicit, and notes that some implementations may choose to upcast errors if desired.\r\n\r\ncc @rozbb ",
       "createdAt": "2021-07-27T19:19:38Z",
-      "updatedAt": "2021-07-27T19:53:13Z",
+      "updatedAt": "2021-07-29T22:58:25Z",
       "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
       "baseRefName": "master",
       "baseRefOid": "8ba4e25c656df4bc0d56a147a8f6b1d4c8c26ee9",
       "headRepository": "cfrg/draft-irtf-cfrg-hpke",
       "headRefName": "caw/encap-error-symmetry",
       "headRefOid": "125d31e37e81837764d0ff4e673e87f448316925",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2021-07-29T22:58:25Z",
+      "mergedAt": "2021-07-29T22:58:25Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "57c5c4170f9b742f7d216b47429dd8776cbf04f5"
+      },
       "comments": [
         {
           "author": "rozbb",
@@ -17533,6 +17535,40 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 235,
+      "id": "MDExOlB1bGxSZXF1ZXN0Njk5MDQ5NTQ0",
+      "title": "Add note on robustness.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-hpke/pull/235",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This was inspired by [one of Paul's papers](https://eprint.iacr.org/2021/708). I _believe_ this is correct, but @blipp can certainly confirm. @kennypaterson may also know whether or not this is correct. =)\r\n",
+      "createdAt": "2021-07-28T22:15:22Z",
+      "updatedAt": "2021-07-28T23:30:14Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "baseRefName": "master",
+      "baseRefOid": "05a3ab80d96ec4bd88b5ad262011fdbc8c53a609",
+      "headRepository": "cfrg/draft-irtf-cfrg-hpke",
+      "headRefName": "caw/robustness",
+      "headRefOid": "61c190a44c76ee7f20a49e0bf6e80e7b402c2d8e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "blipp",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "That's an interesting question, thanks Chris for the pointer to the paper.\r\n\r\nThe analysis of HPKE did not cover robustness so far, and I am unsure if HPKE is indeed robust.\r\n\r\nConsider the following attack draft:\r\n\r\n* The adversary samples an ephemeral key:\r\n\r\n```\r\n  skE, pkE = GenerateKeyPair()\r\n  enc = SerializePublicKey(pkE)\r\n```\r\n\r\n* The adversary computes the shared secret for two recipient keys `pkR1`, `pkR2`. (This is basically calling `Encap` twice with the same entropy):\r\n\r\n```\r\n  dh1 = DH(skE, pkR1)\r\n  pkR1m = SerializePublicKey(pkR1)\r\n  kem_context1 = concat(enc, pkR1m)\r\n  shared_secret1 = ExtractAndExpand(dh1, kem_context1)\r\n\r\n  dh2 = DH(skE, pkR2)\r\n  pkR2m = SerializePublicKey(pkR2)\r\n  kem_context2 = concat(enc, pkR2m)\r\n  shared_secret2 = ExtractAndExpand(dh2, kem_context2)\r\n```\r\n\r\n* The adversary uses `KeySchedule` with `shared_secret1` and `shared_secret2` to compute the `key` and `base_nonce` for the two recipients.\r\n\r\n* Then, the adversary uses the Multi-Collide-GCM algorithm described in [LGR20](https://eprint.iacr.org/2020/1491) to prepare a ciphertext that decrypts under both keys. Open problem: Multi-Collide-GCM takes in a set of keys and a _single_ nonce. Here, we have a different nonce per key. Is there a variant of Multi-Collide-GCM that works for a different nonce per key?\r\n\r\n* Assuming such a Multi-Collide-GCM exists, continue as follows: The adversary returns `(enc, ciphertext), pkR1, pkR2` (or the according identities belonging to the public keys) and wins the robustness game.\r\n\r\n",
+          "createdAt": "2021-07-28T23:30:14Z",
+          "updatedAt": "2021-07-28T23:30:14Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
